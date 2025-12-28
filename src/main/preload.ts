@@ -1108,6 +1108,8 @@ contextBridge.exposeInMainWorld('maestro', {
   autorun: {
     listDocs: (folderPath: string) =>
       ipcRenderer.invoke('autorun:listDocs', folderPath),
+    hasDocuments: (folderPath: string): Promise<{ hasDocuments: boolean }> =>
+      ipcRenderer.invoke('autorun:hasDocuments', folderPath),
     readDoc: (folderPath: string, filename: string) =>
       ipcRenderer.invoke('autorun:readDoc', folderPath, filename),
     writeDoc: (folderPath: string, filename: string, content: string) =>
@@ -2278,6 +2280,9 @@ export interface MaestroAPI {
     listDocs: (
       folderPath: string
     ) => Promise<{ success: boolean; files: string[]; error?: string }>;
+    hasDocuments: (
+      folderPath: string
+    ) => Promise<{ hasDocuments: boolean }>;
     readDoc: (
       folderPath: string,
       filename: string
