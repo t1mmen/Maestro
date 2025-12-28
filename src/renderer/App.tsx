@@ -3853,7 +3853,11 @@ function MaestroConsoleInner() {
 
   // Inline wizard hook for /wizard command
   // This manages the state for the inline wizard that creates/iterates on Auto Run documents
-  const { startWizard: startInlineWizard } = useInlineWizard();
+  const {
+    startWizard: startInlineWizard,
+    clearError: clearInlineWizardError,
+    retryLastMessage: retryInlineWizardMessage,
+  } = useInlineWizard();
 
   // Handler for the built-in /history command
   // Requests a synopsis from the current agent session and saves to history
@@ -9466,6 +9470,9 @@ function MaestroConsoleInner() {
           // Refresh the Auto Run panel to show newly generated documents
           handleAutoRunRefresh();
         }}
+        // Inline wizard error handling callbacks
+        onWizardRetry={retryInlineWizardMessage}
+        onWizardClearError={clearInlineWizardError}
       />
       )}
 
