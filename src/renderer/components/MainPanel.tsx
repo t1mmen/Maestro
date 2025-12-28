@@ -232,6 +232,8 @@ interface MainPanelProps {
   onWizardDocumentSelect?: (index: number) => void;
   /** Called when user edits document content in the wizard */
   onWizardContentChange?: (content: string, docIndex: number) => void;
+  /** Called when user clicks "Let's Go" in wizard to start document generation */
+  onWizardLetsGo?: () => void;
 }
 
 // PERFORMANCE: Wrap with React.memo to prevent re-renders when parent (App.tsx) re-renders
@@ -1053,6 +1055,9 @@ export const MainPanel = React.memo(forwardRef<MainPanelHandle, MainPanelProps>(
                   conversationHistory={activeSession.wizardState.conversationHistory}
                   isLoading={activeSession.state === 'busy'}
                   agentName={activeSession.name}
+                  confidence={activeSession.wizardState.confidence}
+                  ready={activeSession.wizardState.ready}
+                  onLetsGo={props.onWizardLetsGo}
                 />
               ) : (
                 <TerminalOutput
