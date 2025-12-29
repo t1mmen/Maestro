@@ -27,6 +27,7 @@ import { registerContextHandlers, ContextHandlerDependencies, cleanupAllGrooming
 import { registerMarketplaceHandlers, MarketplaceHandlerDependencies } from './marketplace';
 import { registerStatsHandlers, StatsHandlerDependencies } from './stats';
 import { registerDocumentGraphHandlers, DocumentGraphHandlerDependencies } from './documentGraph';
+import { registerSymphonyHandlers, SymphonyHandlerDependencies } from './symphony';
 import { AgentDetector } from '../../agent-detector';
 import { ProcessManager } from '../../process-manager';
 import { WebServer } from '../../web-server';
@@ -55,6 +56,7 @@ export { registerMarketplaceHandlers };
 export type { MarketplaceHandlerDependencies };
 export { registerStatsHandlers };
 export { registerDocumentGraphHandlers };
+export { registerSymphonyHandlers };
 export type { AgentsHandlerDependencies };
 export type { ProcessHandlerDependencies };
 export type { PersistenceHandlerDependencies };
@@ -66,6 +68,7 @@ export type { DebugHandlerDependencies };
 export type { ContextHandlerDependencies };
 export type { StatsHandlerDependencies };
 export type { DocumentGraphHandlerDependencies };
+export type { SymphonyHandlerDependencies };
 export type { MaestroSettings, SessionsData, GroupsData };
 
 /**
@@ -185,6 +188,11 @@ export function registerAllHandlers(deps: HandlerDependencies): void {
   registerDocumentGraphHandlers({
     getMainWindow: deps.getMainWindow,
     app: deps.app,
+  });
+  // Register Symphony handlers for token donation / open source contributions
+  registerSymphonyHandlers({
+    app: deps.app,
+    getMainWindow: deps.getMainWindow,
   });
   // Setup logger event forwarding to renderer
   setupLoggerEventForwarding(deps.getMainWindow);
