@@ -39,6 +39,9 @@ export type {
 } from '../../shared/group-chat-types';
 // Import AgentError for use within this file
 import type { AgentError } from '../../shared/types';
+// Import Symphony types for session metadata
+import type { SymphonySessionMetadata } from '../../shared/symphony-types';
+export type { SymphonySessionMetadata } from '../../shared/symphony-types';
 
 export type SessionState = 'idle' | 'busy' | 'waiting_input' | 'connecting' | 'error';
 export type FileChangeType = 'modified' | 'added' | 'deleted';
@@ -476,6 +479,9 @@ export interface Session {
   customModel?: string;          // Custom model ID (overrides agent-level)
   customProviderPath?: string;   // Custom provider path (overrides agent-level)
   customContextWindow?: number;  // Custom context window size (overrides agent-level)
+
+  // Symphony contribution metadata (only set for Symphony sessions)
+  symphonyMetadata?: SymphonySessionMetadata;
 }
 
 export interface AgentConfigOption {

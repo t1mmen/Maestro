@@ -24,6 +24,7 @@ import { TourOverlay } from './components/Wizard/tour';
 import { CONDUCTOR_BADGES, getBadgeForTime } from './constants/conductorBadges';
 import { EmptyStateView } from './components/EmptyStateView';
 import { MarketplaceModal } from './components/MarketplaceModal';
+import { SymphonyModal } from './components/SymphonyModal';
 import { DocumentGraphView } from './components/DocumentGraph/DocumentGraphView';
 
 // Group Chat Components
@@ -221,6 +222,8 @@ function MaestroConsoleInner() {
     gitLogOpen, setGitLogOpen,
     // Tour Overlay
     tourOpen, setTourOpen, tourFromWizard, setTourFromWizard,
+    // Symphony Modal
+    symphonyModalOpen, setSymphonyModalOpen,
   } = useModalContext();
 
   // --- MOBILE LANDSCAPE MODE (reading-only view) ---
@@ -2811,6 +2814,30 @@ function MaestroConsoleInner() {
 
     return unsubscribe;
   }, [sessions]);
+
+  // Symphony contribution started handler - updates session state when contribution starts
+  useEffect(() => {
+    const unsubscribe = window.maestro.symphony.onContributionStarted((data) => {
+      setSessions(prev => prev.map(session => {
+        if (session.id === data.sessionId && session.symphonyMetadata) {
+          return {
+            ...session,
+            symphonyMetadata: {
+              ...session.symphonyMetadata,
+              draftPrNumber: data.draftPrNumber,
+              draftPrUrl: data.draftPrUrl,
+              status: 'running',
+            },
+            // Set up Auto Run with the document folder
+            autoRunFolderPath: data.autoRunPath,
+          };
+        }
+        return session;
+      }));
+    });
+
+    return unsubscribe;
+  }, []);
 
   // Theme styles hook - manages CSS variables and scrollbar fade animations
   useThemeStyles({
@@ -7963,8 +7990,10 @@ function MaestroConsoleInner() {
     recordShortcutUsage, onKeyboardMasteryLevelUp,
 
     // Edit agent modal
-    setEditAgentSession, setEditAgentModalOpen
+    setEditAgentSession, setEditAgentModalOpen,
 
+    // Symphony modal
+    setShowSymphonyModal: setSymphonyModalOpen,
   };
 
   // Update flat file list when active session's tree, expanded folders, filter, or hidden files setting changes
@@ -8382,6 +8411,7 @@ function MaestroConsoleInner() {
         autoRunSelectedDocument={activeSession?.autoRunSelectedFile ?? null}
         autoRunCompletedTaskCount={rightPanelRef.current?.getAutoRunCompletedTaskCount() ?? 0}
         onAutoRunResetTasks={handleQuickActionsAutoRunResetTasks}
+        onOpenSymphony={() => setSymphonyModalOpen(true)}
         isFilePreviewOpen={previewFile !== null}
         ghCliAvailable={ghCliAvailable}
         onPublishGist={() => setGistPublishModalOpen(true)}
@@ -8538,6 +8568,17 @@ function MaestroConsoleInner() {
           onImportComplete={handleMarketplaceImportComplete}
         />
       )}
+
+      {/* --- SYMPHONY MODAL --- */}
+      <SymphonyModal
+        theme={theme}
+        isOpen={symphonyModalOpen}
+        onClose={() => setSymphonyModalOpen(false)}
+        onStartContribution={(contributionId, localPath) => {
+          // TODO: Create Symphony session with the contribution
+          console.log('[Symphony] Starting contribution:', { contributionId, localPath });
+        }}
+      />
 
       {/* --- GIST PUBLISH MODAL --- */}
       {gistPublishModalOpen && previewFile && (
@@ -8699,6 +8740,7 @@ function MaestroConsoleInner() {
             visibleSessions={visibleSessions}
             autoRunStats={autoRunStats}
             openWizard={openWizardModal}
+            openSymphony={() => setSymphonyModalOpen(true)}
             startTour={() => {
               setTourFromWizard(false);
               setTourOpen(true);

@@ -249,6 +249,10 @@ export interface ModalContextValue {
   setTourOpen: (open: boolean) => void;
   tourFromWizard: boolean;
   setTourFromWizard: (fromWizard: boolean) => void;
+
+  // Symphony Modal
+  symphonyModalOpen: boolean;
+  setSymphonyModalOpen: (open: boolean) => void;
 }
 
 // Create context with null as default (will throw if used outside provider)
@@ -421,6 +425,9 @@ export function ModalProvider({ children }: ModalProviderProps) {
   // Tour Overlay
   const [tourOpen, setTourOpen] = useState(false);
   const [tourFromWizard, setTourFromWizard] = useState(false);
+
+  // Symphony Modal
+  const [symphonyModalOpen, setSymphonyModalOpen] = useState(false);
 
   // Convenience methods
   const openSettings = useCallback((tab?: SettingsTab) => {
@@ -665,6 +672,10 @@ export function ModalProvider({ children }: ModalProviderProps) {
     setTourOpen,
     tourFromWizard,
     setTourFromWizard,
+
+    // Symphony Modal
+    symphonyModalOpen,
+    setSymphonyModalOpen,
   }), [
     // Settings Modal
     settingsModalOpen, settingsTab, openSettings, closeSettings,
@@ -748,6 +759,8 @@ export function ModalProvider({ children }: ModalProviderProps) {
     gitLogOpen,
     // Tour Overlay
     tourOpen, tourFromWizard,
+    // Symphony Modal
+    symphonyModalOpen,
   ]);
 
   return (

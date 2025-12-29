@@ -776,6 +776,8 @@ export interface AppUtilityModalsProps {
   autoRunSelectedDocument: string | null;
   autoRunCompletedTaskCount: number;
   onAutoRunResetTasks: () => void;
+  // Symphony
+  onOpenSymphony?: () => void;
   // OpenSpec commands
   onInjectOpenSpecPrompt?: (prompt: string) => void;
 
@@ -947,6 +949,8 @@ export function AppUtilityModals({
   autoRunSelectedDocument,
   autoRunCompletedTaskCount,
   onAutoRunResetTasks,
+  // Symphony
+  onOpenSymphony,
   // Gist publishing
   isFilePreviewOpen,
   ghCliAvailable,
@@ -1093,6 +1097,7 @@ export function AppUtilityModals({
           autoRunSelectedDocument={autoRunSelectedDocument}
           autoRunCompletedTaskCount={autoRunCompletedTaskCount}
           onAutoRunResetTasks={onAutoRunResetTasks}
+          onOpenSymphony={onOpenSymphony}
           isFilePreviewOpen={isFilePreviewOpen}
           ghCliAvailable={ghCliAvailable}
           onPublishGist={onPublishGist}
@@ -1781,6 +1786,8 @@ export interface AppModalsProps {
   autoRunSelectedDocument: string | null;
   autoRunCompletedTaskCount: number;
   onAutoRunResetTasks: () => void;
+  // Symphony
+  onOpenSymphony?: () => void;
   // Gist publishing
   isFilePreviewOpen: boolean;
   ghCliAvailable: boolean;
@@ -2056,6 +2063,8 @@ export function AppModals(props: AppModalsProps) {
     autoRunSelectedDocument,
     autoRunCompletedTaskCount,
     onAutoRunResetTasks,
+    // Symphony
+    onOpenSymphony,
     // Gist publishing
     isFilePreviewOpen,
     ghCliAvailable,
@@ -2349,6 +2358,7 @@ export function AppModals(props: AppModalsProps) {
         autoRunSelectedDocument={autoRunSelectedDocument}
         autoRunCompletedTaskCount={autoRunCompletedTaskCount}
         onAutoRunResetTasks={onAutoRunResetTasks}
+        onOpenSymphony={onOpenSymphony}
         isFilePreviewOpen={isFilePreviewOpen}
         ghCliAvailable={ghCliAvailable}
         onPublishGist={onPublishGist}
