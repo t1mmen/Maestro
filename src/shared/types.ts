@@ -219,3 +219,29 @@ export {
   MarketplaceCacheError,
   MarketplaceImportError,
 } from './marketplace-types';
+
+// ============================================================================
+// Symphony Types (re-exported from symphony-types.ts)
+// ============================================================================
+
+export type {
+  SymphonyRegistry,
+  RegisteredRepository,
+  SymphonyCategory,
+  SymphonyIssue,
+  IssueStatus,
+  ActiveContribution,
+  CompletedContribution,
+  ContributionStatus,
+  ContributorStats,
+  SymphonyState,
+  SymphonyCache,
+  SymphonySessionMetadata,
+  GetRegistryResponse,
+  GetIssuesResponse,
+  StartContributionResponse,
+  CompleteContributionResponse,
+  SymphonyErrorType,
+} from './symphony-types';
+
+export { SymphonyError } from './symphony-types';
